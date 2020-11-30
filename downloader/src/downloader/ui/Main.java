@@ -1,12 +1,18 @@
 package downloader.ui;
 
 import java.awt.BorderLayout;
+import java.awt.Color;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 
+import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
+
+import javax.swing.JTextField;
+
 import javax.swing.SwingUtilities;
+import javax.swing.event.DocumentListener;
 
 import downloader.fc.Downloader;
 
@@ -21,6 +27,7 @@ public class Main extends JFrame{
 		DownloadPanel DP = new DownloadPanel();
 		StackLayout SL = new StackLayout();
 		DP.setLayout(SL);
+		DP.setBackground(Color.darkGray);
 		setSize(DP.getWidth(), DP.getHeight());
 		
 		
@@ -28,8 +35,17 @@ public class Main extends JFrame{
 			DP.add(url);
 		}
 		
-		
-		add(DP);
+
+		JTextField textP = new JTextField();
+		JButton buttonAdd = new JButton("add");
+		buttonAdd.addActionListener(new ButtonAddListener(textP, DP));
+		JPanel userInteract = new JPanel();
+		userInteract.setLayout(new BorderLayout());
+		userInteract.add(textP);
+		userInteract.add(buttonAdd, BorderLayout.EAST);
+		add(userInteract, BorderLayout.SOUTH);
+		add(DP, BorderLayout.NORTH);
+		//pack();
 	}
 	
 

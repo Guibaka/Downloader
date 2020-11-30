@@ -25,6 +25,7 @@ public class ProgressBar extends JProgressBar {
 	}
 	
 	public void updateProgress(int prog) {
+		System.out.println(prog);
 		m_progress = prog;
 		this.setValue(prog);
 	}

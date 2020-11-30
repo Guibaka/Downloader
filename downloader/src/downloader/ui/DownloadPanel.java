@@ -13,9 +13,10 @@ import javax.swing.JPanel;
 import downloader.fc.Downloader;
 
 public class DownloadPanel extends JPanel {
-	Vector<Downloader> m_downloaders = new Vector<Downloader>();
+	//Vector<Downloader> m_downloaders = new Vector<Downloader>();
 	int H;
 	int W;
+	
 
 	DownloadPanel() {
 		W = 600;
@@ -26,14 +27,16 @@ public class DownloadPanel extends JPanel {
 	public void add(String url) {
 		try {
 			Downloader downloader = new Downloader(url);
-			m_downloaders.add(downloader);
+			//m_downloaders.add(downloader);
 			ProgressBar pb = new ProgressBar(downloader);
 			downloader.addPropertyChangeListener(new ProgressBarListener(pb));
 			add(pb);
+			downloader.execute();
 		} catch (RuntimeException e) {
 			System.err.format("skipping %s %s\n", url, e);
 		}
 
+		/*
 		Thread t = new Thread() {
 			public void run() {
 				try {
@@ -42,7 +45,9 @@ public class DownloadPanel extends JPanel {
 					System.err.println("failed!");
 				}
 			}
-		};t.start();
+		};	
+		t.start();
+		*/
 
 	}
 
@@ -54,4 +59,10 @@ public class DownloadPanel extends JPanel {
 		return H;
 	}
 
+	/*
+	public Vector<Downloader> getDownloaders(){
+		return m_downloaders;
+	}
+	*/
+	
 }
