@@ -13,10 +13,10 @@ public class ProgressBar extends JProgressBar {
 	
 	ProgressBar(Downloader download){
 		m_downloader = download;
-		m_progress = 0;
+		m_progress = download.getProgress();
 		setMinimum(0);
 		setMaximum(100);
-		setValue(m_progress);
+		setValue(0);
 		setStringPainted(true);
 	}
 

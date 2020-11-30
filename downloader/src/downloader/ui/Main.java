@@ -28,8 +28,8 @@ public class Main extends JFrame{
 			DP.add(url);
 		}
 		
-		add(DP);
 		
+		add(DP);
 	}
 	
 

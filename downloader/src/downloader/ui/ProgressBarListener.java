@@ -18,7 +18,7 @@ public class ProgressBarListener implements PropertyChangeListener{
 	public void propertyChange(PropertyChangeEvent arg0) {
 		// TODO Auto-generated method stub
 		Downloader d = m_bar.getDownloader();
-		m_bar.updateProgress(d.getProgress());;
+		m_bar.updateProgress(d.getProgress());
 	}
 	
 }

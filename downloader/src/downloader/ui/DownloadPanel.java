@@ -28,7 +28,7 @@ public class DownloadPanel extends JPanel {
 			Downloader downloader = new Downloader(url);
 			m_downloaders.add(downloader);
 			ProgressBar pb = new ProgressBar(downloader);
-			pb.addPropertyChangeListener(new ProgressBarListener(pb));
+			downloader.addPropertyChangeListener(new ProgressBarListener(pb));
 			add(pb);
 		} catch (RuntimeException e) {
 			System.err.format("skipping %s %s\n", url, e);
@@ -42,8 +42,7 @@ public class DownloadPanel extends JPanel {
 					System.err.println("failed!");
 				}
 			}
-		};
-		t.start();
+		};t.start();
 
 	}
 
