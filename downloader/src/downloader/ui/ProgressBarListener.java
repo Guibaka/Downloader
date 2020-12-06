@@ -20,5 +20,4 @@ public class ProgressBarListener implements PropertyChangeListener{
 		Downloader d = m_bar.getDownloader();
 		m_bar.updateProgress(d.getProgress());
 	}
-	
 }

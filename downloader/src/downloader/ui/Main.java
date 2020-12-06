@@ -24,11 +24,14 @@ public class Main extends JFrame{
 		setDefaultCloseOperation(EXIT_ON_CLOSE);
 		
 		
-		DownloadPanel DP = new DownloadPanel();
+		DownloadPanel DP = new DownloadPanel(this);
 		StackLayout SL = new StackLayout();
 		DP.setLayout(SL);
 		DP.setBackground(Color.darkGray);
-		setSize(DP.getWidth(), DP.getHeight());
+		setSize(600, 500);
+		//setExtendedState(JFrame.MAXIMIZED_BOTH); 
+		
+		//setUndecorated(true);
 		
 		
 		for(String url : urls) {
@@ -38,14 +41,13 @@ public class Main extends JFrame{
 
 		JTextField textP = new JTextField();
 		JButton buttonAdd = new JButton("add");
-		buttonAdd.addActionListener(new ButtonAddListener(textP, DP));
+		buttonAdd.addActionListener(new ButtonAddListener(textP, DP, this));
 		JPanel userInteract = new JPanel();
 		userInteract.setLayout(new BorderLayout());
 		userInteract.add(textP);
 		userInteract.add(buttonAdd, BorderLayout.EAST);
 		add(userInteract, BorderLayout.SOUTH);
 		add(DP, BorderLayout.NORTH);
-		//pack();
 	}
 	
 
@@ -53,7 +55,7 @@ public class Main extends JFrame{
 		String[] urls = argv;
 		SwingUtilities.invokeLater(new Runnable() {
 			public void run() { 
-				new Main("Dowloader", urls).setVisible(true); 
+				new Main("Dowloader", urls).setVisible(true);; 
 			}
 		});
 	}
