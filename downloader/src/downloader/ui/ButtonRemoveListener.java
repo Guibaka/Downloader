@@ -42,6 +42,9 @@ public class ButtonRemoveListener implements ActionListener {
 	 * EDIT: 
 	 * 		 après un test: j'ai lancé un download que j'ai ensuite remove
 	 * 		 => dans la console ça a continué de print DONC ça ne "kill" pas le dl 
+	 * 
+	 * FIXED: 
+	 * 		voir en haut
 	 * */
 	
 }

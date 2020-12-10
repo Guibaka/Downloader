@@ -31,8 +31,11 @@ public class Downloader extends SwingWorker<String, Integer> {
 	FileOutputStream out;
 	ReentrantLock lock = new ReentrantLock();
 
-	private int _progress;
-	private PropertyChangeSupport pcs = new PropertyChangeSupport(this);
+	//private int _progress;
+	//private PropertyChangeSupport pcs = new PropertyChangeSupport(this);
+	
+	private volatile boolean isPaused;
+
 
 	public Downloader(String uri) {
 		try {
@@ -48,6 +51,8 @@ public class Downloader extends SwingWorker<String, Integer> {
 			filename = path[path.length - 1];
 			temp = File.createTempFile(filename, ".part");
 			out = new FileOutputStream(temp);
+			
+			isPaused = false;
 
 		} catch (MalformedURLException e) {
 			throw new RuntimeException(e);
@@ -67,26 +72,29 @@ public class Downloader extends SwingWorker<String, Integer> {
 
 		lock.lock();
 		try {
-			while (true) {
-				try {
-					count = in.read(buffer, 0, CHUNK_SIZE);
-				} catch (IOException e) {
-					continue;
+			while (!isCancelled()) {
+				if (isPaused) Thread.sleep(10000);
+				else {
+					try {
+						count = in.read(buffer, 0, CHUNK_SIZE);
+					} catch (IOException e) {
+						continue;
+					}
+	
+					if (count < 0) {
+						break;
+					}
+	
+					try {
+						out.write(buffer, 0, count);
+					} catch (IOException e) {
+						continue;
+					}
+	
+					size += count;
+					setProgress(100 * size / content_length);
+					Thread.sleep(2000);
 				}
-
-				if (count < 0) {
-					break;
-				}
-
-				try {
-					out.write(buffer, 0, count);
-				} catch (IOException e) {
-					continue;
-				}
-
-				size += count;
-				setProgress(100 * size / content_length);
-				Thread.sleep(2000);
 			}
 		}finally {
 			lock.unlock();
@@ -126,13 +134,30 @@ public class Downloader extends SwingWorker<String, Integer> {
 	 * public void removePropertyChangeListener(PropertyChangeListener listener) {
 	 * pcs.removePropertyChangeListener(listener); }
 	 */
-
-	public void pause() {
-		lock.lock();
+/*
+	public void pause() throws InterruptedException {
+		Thread.sleep(5000);;
 	}
 
 	public void resume() {
-		lock.unlock();
+		Thread.currentThread().interrupt();
 	}
+*/
+    public final void pause() {
+        if (!isPaused() && !isDone()) {
+            isPaused = true;
+            firePropertyChange("paused", false, true);
+        }
+    }
 
+    public final void resume() {
+        if (isPaused() && !isDone()) {
+            isPaused = false;
+            firePropertyChange("paused", true, false);
+        }
+    }
+
+    public final boolean isPaused() {
+        return isPaused;
+    }
 }
