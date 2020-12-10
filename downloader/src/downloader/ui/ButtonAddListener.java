@@ -20,12 +20,15 @@ public class ButtonAddListener implements ActionListener {
 	@SuppressWarnings("deprecation")
 	@Override
 	public void actionPerformed(ActionEvent arg0) {
-		// TODO Auto-generated method stub
+		/* lorsqu'on va cliquer sur le bouton, on va récupérer le contenu du
+		 * jtextfield:
+		 * 		- si c'est null: il n'y a rien on ne fait rien
+		 * 		- sinon on traite le string grâce à add
+		 * */
 		String url = m_textField.getText();
 		if(url!=null) {
 			m_downloadPanel.add(url);
 			m_textField.setText(null);
-			//m_downloadPanel.repaint();
 			m_frame.setVisible(true);
 		}
 	}
