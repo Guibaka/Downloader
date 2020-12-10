@@ -3,13 +3,17 @@ package downloader.ui;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
+import javax.swing.JButton;
+
 import downloader.fc.Downloader;
 
 public class PlayPauseButtonListener implements ActionListener {
 	Downloader m_d;
+	JButton m_b;
 
-	PlayPauseButtonListener(Downloader d) {
+	PlayPauseButtonListener(JButton b, Downloader d) {
 		m_d = d;
+		m_b =b;
 	}
 
 	@Override
@@ -18,9 +22,11 @@ public class PlayPauseButtonListener implements ActionListener {
 		if (m_d.isPaused()) {
 			System.out.println("Continue");
 			m_d.resume();
+			m_b.setText("pause");
 		} else {
 			System.out.println("Suspend");
 			m_d.pause();
+			m_b.setText("resume");
 		}
 	}
 

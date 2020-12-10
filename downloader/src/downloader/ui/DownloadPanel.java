@@ -51,7 +51,7 @@ public class DownloadPanel extends JPanel {
 			
 			/* ajout d'un bouton pour mettre en pause le download */
 			JButton pause_playB = new JButton("pause");
-			pause_playB.addActionListener(new PlayPauseButtonListener(downloader));
+			pause_playB.addActionListener(new PlayPauseButtonListener(pause_playB, downloader));
 			buttons.add(pause_playB, BorderLayout.WEST);
 			
 			/* le label de l'url */
