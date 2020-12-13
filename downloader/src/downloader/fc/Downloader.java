@@ -34,7 +34,8 @@ public class Downloader extends SwingWorker<String, Integer> {
 	//private int _progress;
 	//private PropertyChangeSupport pcs = new PropertyChangeSupport(this);
 	
-	private volatile boolean isPaused;
+	/*permet de mettre en pause ou continuer le download lors d'un appel de pause() ou resume()*/
+	 boolean isPaused;
 
 
 	public Downloader(String uri) {
@@ -73,8 +74,7 @@ public class Downloader extends SwingWorker<String, Integer> {
 		lock.lock();
 		try {
 			while (!isCancelled()) {
-				if (isPaused) Thread.sleep(10000);
-				else {
+				if(!isPaused){
 					try {
 						count = in.read(buffer, 0, CHUNK_SIZE);
 					} catch (IOException e) {
@@ -93,7 +93,7 @@ public class Downloader extends SwingWorker<String, Integer> {
 	
 					size += count;
 					setProgress(100 * size / content_length);
-					Thread.sleep(2000);
+					Thread.sleep(1000);
 				}
 			}
 		}finally {
@@ -134,26 +134,16 @@ public class Downloader extends SwingWorker<String, Integer> {
 	 * public void removePropertyChangeListener(PropertyChangeListener listener) {
 	 * pcs.removePropertyChangeListener(listener); }
 	 */
-/*
-	public void pause() throws InterruptedException {
-		Thread.sleep(5000);;
-	}
 
-	public void resume() {
-		Thread.currentThread().interrupt();
-	}
-*/
     public final void pause() {
         if (!isPaused() && !isDone()) {
             isPaused = true;
-            firePropertyChange("paused", false, true);
         }
     }
 
     public final void resume() {
         if (isPaused() && !isDone()) {
             isPaused = false;
-            firePropertyChange("paused", true, false);
         }
     }
 

@@ -29,7 +29,7 @@ public class ButtonAddListener implements ActionListener {
 		if(url!=null) {
 			m_downloadPanel.add(url);
 			m_textField.setText(null);
-			m_frame.setVisible(true);
+			m_frame.setVisible(true);// nécessaire pour affecter une taille au component ajouté
 		}
 	}
 

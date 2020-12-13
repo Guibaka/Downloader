@@ -19,11 +19,11 @@ public class PlayPauseButtonListener implements ActionListener {
 	@Override
 	public void actionPerformed(ActionEvent arg0) {
 		// TODO Auto-generated method stub
-		if (m_d.isPaused()) {
+		if (m_d.isPaused()) { // cas où le download est en pause
 			System.out.println("Continue");
 			m_d.resume();
 			m_b.setText("pause");
-		} else {
+		} else { // cas où le download est en cours
 			System.out.println("Suspend");
 			m_d.pause();
 			m_b.setText("resume");

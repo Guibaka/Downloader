@@ -16,8 +16,10 @@ import javax.swing.JPanel;
 
 import downloader.fc.Downloader;
 
+
+/*Cette classe est équivalent à la classe Download demandé*/
 public class DownloadPanel extends JPanel {
-	//Vector<Downloader> m_downloaders ;
+	//Vector<Downloader> m_downloaders ; 
 	JFrame m_frame;
 
 	DownloadPanel(JFrame f) {
@@ -30,26 +32,27 @@ public class DownloadPanel extends JPanel {
 		try {
 			/* création d'un downloader */
 			Downloader downloader = new Downloader(url);
+			
 			//m_downloaders.add(downloader);
 			
 			/* barre de progression */
 			ProgressBar pb = new ProgressBar(downloader);
 			downloader.addPropertyChangeListener(new ProgressBarListener(pb));
 			
-			/* panel qui contiendra: downloadbar, boutons pause/remove et le label de l'url */
+			/* panel d qui contiendra: downloadbar, boutons pause/remove et le label de l'url */
 			JPanel d = new JPanel();
 			d.setLayout(new BorderLayout());
 			
-			/* on ajoute ici les boutons qu'on créée pour nos downloads */
+			/* on crée un panel buttons pour ajouter les boutons qu'on a créé pour nos downloads */
 			JPanel buttons = new JPanel();
 			buttons.setLayout(new BorderLayout());
 			
-			/* ajout d'un bouton pour remove le download */
+			/* ajout d'un bouton à droite pour remove le download */
 			JButton removeB = new JButton("remove");
 			removeB.addActionListener(new ButtonRemoveListener(m_frame, this, d, downloader));
 			buttons.add(removeB, BorderLayout.EAST);
 			
-			/* ajout d'un bouton pour mettre en pause le download */
+			/* ajout d'un bouton pour mettre en pause à gauche le download */
 			JButton pause_playB = new JButton("pause");
 			pause_playB.addActionListener(new PlayPauseButtonListener(pause_playB, downloader));
 			buttons.add(pause_playB, BorderLayout.WEST);
@@ -57,15 +60,16 @@ public class DownloadPanel extends JPanel {
 			/* le label de l'url */
 			JLabel label = new JLabel(url);
 			
-			d.add(pb);
+			d.add(pb, BorderLayout.CENTER);
 			d.add(buttons, BorderLayout.EAST);
 			d.add(label, BorderLayout.NORTH);
 			
 			/* pour chaque downloads, on ajoute le tout au downloadpanel */
 			add(d);
 			
-			/* swingworker */
+			/* swingworker commence la download*/
 			downloader.execute();
+			
 		} catch (RuntimeException e) {
 			System.err.format("skipping %s %s\n", url, e);
 		}
